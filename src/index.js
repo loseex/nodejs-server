@@ -4,8 +4,10 @@ import "colors";
 import express from "express";
 import { StackLogger } from "./middlewares/stack.mw.js";
 import { RequestLogger } from "./middlewares/request.mw.js";
+import Database from "./database/index.js";
 
 const PORT = process.env.PORT || 8080;
+const MONGOURL = process.env.MONGO_URL;
 
 class Core {
   app = express();
@@ -19,15 +21,20 @@ class Core {
     StackLogger(this.router);
   }
 
-  static listen(port, host) {
+  async listen(port, host) {
     const _h = host || "localhost";
-    const core = new Core();
+    this.app.listen(port, _h, () => {
+      console.log(
+        `\nServer started `.magenta + `http://${_h}:${port}`.blue.underline
+      );
+    });
+  }
 
+  static start(port, host) {
+    const core = new Core();
     try {
-      core.app.listen(port, _h, () => {
-        console.log(
-          `\nServer started `.magenta + `http://${_h}:${port}`.blue.underline
-        );
+      Database.connect(MONGOURL, () => {
+        core.listen(port, host);
       });
     } catch (err) {
       console.error(err);
@@ -35,4 +42,4 @@ class Core {
   }
 }
 
-Core.listen(PORT);
+Core.start(PORT);
