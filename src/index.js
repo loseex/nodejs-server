@@ -5,6 +5,7 @@ import express from "express";
 import { StackLogger } from "./middlewares/stack.mw.js";
 import { RequestLogger } from "./middlewares/request.mw.js";
 import Database from "./database/index.js";
+import { UserController } from "./routes/user/user.controller.js";
 
 const PORT = process.env.PORT || 8080;
 const MONGOURL = process.env.MONGO_URL;
@@ -17,6 +18,8 @@ class Core {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(RequestLogger);
+
+    new UserController(this.app);
 
     StackLogger(this.router);
   }
@@ -37,7 +40,7 @@ class Core {
         core.listen(port, host);
       });
     } catch (err) {
-      console.error(err);
+      console.error(new Error("Runtime Error:: " + e));
     }
   }
 }
