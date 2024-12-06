@@ -24,7 +24,7 @@ class Core {
     StackLogger(this.router);
   }
 
-  async listen(port, host) {
+  listen(port, host) {
     const _h = host || "localhost";
     this.app.listen(port, _h, () => {
       console.log(
