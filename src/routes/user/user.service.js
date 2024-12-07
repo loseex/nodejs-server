@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 export class UserService {
   /**
-   * Получить список пользователей.
+   * Метод для получения списка пользователей.
    * @returns Список пользователей
    */
   async find() {
@@ -11,7 +11,7 @@ export class UserService {
   }
 
   /**
-   * Получать пользователя по id.
+   * Метод для получения пользователя по id.
    * @param { string } id
    */
   async findById(id) {
