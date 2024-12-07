@@ -24,15 +24,25 @@ class Core {
     StackLogger(this.router);
   }
 
+  /**
+   * Метод для запуска сервера на указанном порту и хосте.
+   * @param { string | number } port
+   * @param { string } host
+   */
   listen(port, host) {
     const _h = host || "localhost";
-    this.app.listen(port, _h, () => {
+    this.app.listen(+port, _h, () => {
       console.log(
         `\nServer started `.magenta + `http://${_h}:${port}`.blue.underline
       );
     });
   }
 
+  /**
+   * Статический метод для запуска приложения и подключения к базе данных
+   * @param { string | number } port
+   * @param { string } host
+   */
   static start(port, host) {
     const core = new Core();
     try {
